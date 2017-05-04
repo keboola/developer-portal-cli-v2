@@ -8,8 +8,9 @@ namespace Keboola\DeveloperPortal\Cli\Command\Test;
 use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use PHPUnit\Framework\TestCase;
 
-class GetLoginCommandTest extends \PHPUnit_Framework_TestCase
+class GetLoginCommandTest extends TestCase
 {
     public function testExecute()
     {

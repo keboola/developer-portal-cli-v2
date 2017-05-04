@@ -6,10 +6,11 @@
 namespace Keboola\DeveloperPortal\Cli\Command\Test;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GetRepositoryTest extends \PHPUnit_Framework_TestCase
+class GetRepositoryTest extends TestCase
 {
     public function testExecute()
     {
