@@ -1,0 +1,31 @@
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+php:
+  - 7.1
+
+install:
+  - docker-compose build
+
+script:
+  - docker-compose run --rm tests
+
+after_success:
+  - docker images
+
+after_error:
+  - docker-compose logs
+
+after_failure:
+  - docker-compose logs
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./deploy.sh
+  on:
+    tags: true

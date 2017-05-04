@@ -1,0 +1,31 @@
+version: '2'
+services:
+  cli:
+    build: .
+    image: keboola/developer-portal-cli-v2
+    volumes:
+      - .:/code
+    working_dir: /code
+    command: "/bin/cli"
+    tty: true
+    stdin_open: true
+    environment:
+      - KBC_DEVELOPERPORTAL_USERNAME
+      - KBC_DEVELOPERPORTAL_PASSWORD
+      - KBC_DEVELOPERPORTAL_URL
+
+  tests:
+    build: .
+    image: keboola/developer-portal-cli-v2
+    volumes:
+      - .:/code
+    working_dir: /code
+    command: /code/phpunit.sh
+    tty: true
+    stdin_open: true
+    environment:
+      - KBC_DEVELOPERPORTAL_USERNAME
+      - KBC_DEVELOPERPORTAL_PASSWORD
+      - KBC_DEVELOPERPORTAL_URL
+      - KBC_DEVELOPERPORTAL_TEST_VENDOR
+      - KBC_DEVELOPERPORTAL_TEST_APP
