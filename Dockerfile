@@ -21,4 +21,4 @@ RUN echo "date.timezone = \"Europe/Prague\"" >> /usr/local/etc/php/php.ini
 RUN composer.phar selfupdate && composer.phar install --no-interaction
 
 # Run
-CMD php bin/app
+CMD php bin/cli
