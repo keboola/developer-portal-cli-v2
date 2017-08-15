@@ -25,8 +25,10 @@ class UpdateAppRepositoryCommandTest extends TestCase
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
-            'tag' => $randomTag
+            'tag' => $randomTag,
+            '--configuration-format' => 'json',
         ));
         $this->assertEquals(0, $commandTester->getStatusCode());
+        $this->assertContains('"configurationFormat": "json"', $commandTester->getDisplay());
     }
 }
