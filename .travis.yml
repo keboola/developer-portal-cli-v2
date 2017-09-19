@@ -5,7 +5,7 @@ services:
 install:
   - docker-compose build
 script:
-  - docker-compose run --rm tests
+  - docker-compose run --rm tests-ci
 after_success:
   - docker images
 after_error:
