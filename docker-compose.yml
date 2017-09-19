@@ -29,3 +29,15 @@ services:
       - KBC_DEVELOPERPORTAL_URL
       - KBC_DEVELOPERPORTAL_TEST_VENDOR
       - KBC_DEVELOPERPORTAL_TEST_APP
+
+  tests-ci:
+    build: .
+    image: keboola/developer-portal-cli-v2
+    entrypoint: ./phpunit.sh
+    tty: true
+    environment:
+      - KBC_DEVELOPERPORTAL_USERNAME
+      - KBC_DEVELOPERPORTAL_PASSWORD
+      - KBC_DEVELOPERPORTAL_URL
+      - KBC_DEVELOPERPORTAL_TEST_VENDOR
+      - KBC_DEVELOPERPORTAL_TEST_APP

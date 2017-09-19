@@ -1,4 +1,4 @@
 .idea
-composer.phar
-vendor
-.env
+/composer.phar
+/vendor
+/.env
