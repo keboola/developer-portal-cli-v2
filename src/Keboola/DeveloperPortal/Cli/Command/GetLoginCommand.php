@@ -26,6 +26,11 @@ class GetLoginCommand extends Command
     {
         $client = $this->login();
         $repository = $client->getAppRepository($input->getArgument('vendor'), $input->getArgument('app'));
-        $output->writeln("docker login -u {$repository["credentials"]["username"]} -p {$repository["credentials"]["password"]} {$repository["registry"]}");
+        $output->writeln(sprintf(
+            "docker login -u %s -p %s %s",
+            $repository["credentials"]["username"],
+            $repository["credentials"]["password"],
+            $repository["registry"]
+        ));
     }
 }
