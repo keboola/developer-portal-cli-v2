@@ -11,7 +11,7 @@
     ],
     "require": {
         "symfony/console": "^3.2",
-        "keboola/developer-portal-php-client": "^3.0",
+        "keboola/developer-portal-php-client": "^4.0",
         "symfony/process": "^3.2"
     },
     "require-dev": {

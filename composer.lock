@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd907ef73b5f98febbe42da8c24b2fa8",
+    "content-hash": "92068b3c0b8d39a55b6b324af2b7417a",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -189,16 +189,16 @@
         },
         {
             "name": "keboola/developer-portal-php-client",
-            "version": "3.0.0",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/developer-portal-php-client.git",
-                "reference": "b9b37ab734831ec577a62c85cbbbc1a995c8d1b6"
+                "reference": "a227037ddd321dcad9b5dd1ebed50fd34602c7a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/developer-portal-php-client/zipball/b9b37ab734831ec577a62c85cbbbc1a995c8d1b6",
-                "reference": "b9b37ab734831ec577a62c85cbbbc1a995c8d1b6",
+                "url": "https://api.github.com/repos/keboola/developer-portal-php-client/zipball/a227037ddd321dcad9b5dd1ebed50fd34602c7a7",
+                "reference": "a227037ddd321dcad9b5dd1ebed50fd34602c7a7",
                 "shasum": ""
             },
             "require": {
@@ -229,7 +229,7 @@
             "keywords": [
                 "keboola"
             ],
-            "time": "2017-09-19T08:31:56+00:00"
+            "time": "2017-09-25T11:09:50+00:00"
         },
         {
             "name": "psr/http-message",
