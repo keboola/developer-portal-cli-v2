@@ -36,6 +36,12 @@ You can also pass
 to `docker run`
 commands above if you wan to use custom API URL. 
 
+Repository is also mirrored to dockerhub:
+
+```
+docker pull keboola/developer-portal-cli-v2:latest
+```
+
 ### Help
 
 ```
