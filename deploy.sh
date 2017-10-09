@@ -2,7 +2,7 @@
 set -e
 
 # Deploy to Dockerhub
-docker login -u="$DOCKERHUB_USERNAME" -p="$DOCKERHUB_PASSWORD" quay.io
+docker login -u="$DOCKERHUB_USERNAME" -p="$DOCKERHUB_PASSWORD" https://index.docker.io/v1/
 docker tag keboola/developer-portal-cli-v2 keboola/developer-portal-cli-v2:$TRAVIS_TAG
 docker tag keboola/developer-portal-cli-v2 qkeboola/developer-portal-cli-v2:latest
 docker push keboola/developer-portal-cli-v2:$TRAVIS_TAG
