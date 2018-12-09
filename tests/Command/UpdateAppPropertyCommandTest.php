@@ -77,4 +77,24 @@ class UpdateAppPropertyCommandTest extends TestCase
             '--is-file' => 1,
         ]);
     }
+
+    public function testExecuteForbiddenProp(): void
+    {
+        $application = new Application();
+        $application->add(new UpdateAppPropertyCommand());
+        $application->add(new GetRepository());
+
+        $command = $application->find('update-app-property');
+
+        $commandTester = new CommandTester($command);
+        self::expectException(Exception::class);
+        self::expectExceptionMessage('Setting of parameter requiredMemory is forbidden');
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
+            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
+            'property' => 'requiredMemory',
+            'value' => 'someValue',
+        ]);
+    }
 }
