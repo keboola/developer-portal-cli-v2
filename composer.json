@@ -24,10 +24,14 @@
     },
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": { "Keboola\\DeveloperPortal\\": "src/Keboola/DeveloperPortal" }
+        "psr-4": {
+            "Keboola\\DeveloperPortal\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Keboola\\DeveloperPortal\\Test\\": "tests/Keboola/DeveloperPortal" }
+        "psr-4": {
+            "Keboola\\DeveloperPortal\\Tests\\": "tests/"
+        }
     },
     "scripts": {
         "tests": "phpunit",
