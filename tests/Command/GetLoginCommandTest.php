@@ -17,11 +17,11 @@ class GetLoginCommandTest extends TestCase
         $application->add(new GetLoginCommand());
         $command = $application->find('ecr:get-login');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP')
-        ));
+        ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
         $this->assertContains('docker login -u AWS -p', $commandTester->getDisplay());
     }

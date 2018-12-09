@@ -23,13 +23,13 @@ class UpdateAppRepositoryCommandTest extends TestCase
         $randomTag = rand(0, 10) . "." . rand(0, 10) . "." . rand(0, 10);
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'tag' => $randomTag,
             '--configuration-format' => 'json',
-        ));
+        ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
         $this->assertContains('"configurationFormat": "json"', $commandTester->getDisplay());
     }

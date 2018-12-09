@@ -17,11 +17,11 @@ class GetRepositoryTest extends TestCase
         $application->add(new GetRepository());
         $command = $application->find('ecr:get-repository');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP')
-        ));
+        ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
         $this->assertContains(getenv('KBC_DEVELOPERPORTAL_TEST_APP'), $commandTester->getDisplay());
         $this->assertContains('ecr', $commandTester->getDisplay());
