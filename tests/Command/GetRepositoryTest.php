@@ -20,7 +20,7 @@ class GetRepositoryTest extends TestCase
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
-            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP')
+            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
         ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
         $this->assertContains(getenv('KBC_DEVELOPERPORTAL_TEST_APP'), $commandTester->getDisplay());
