@@ -6,6 +6,7 @@ namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppPropertyCommand;
+use Keboola\DeveloperPortal\Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -49,10 +50,31 @@ class UpdateAppPropertyCommandTest extends TestCase
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'property' => 'longDescription',
             'value' => $fileName,
-            '--is-file' => 1
+            '--is-file' => 1,
         ]);
         @unlink($fileName);
         self::assertEquals(0, $commandTester->getStatusCode());
         self::assertContains('"longDescription": "Long description', $commandTester->getDisplay());
+    }
+
+    public function testExecuteFileNonExistent(): void
+    {
+        $application = new Application();
+        $application->add(new UpdateAppPropertyCommand());
+        $application->add(new GetRepository());
+
+        $command = $application->find('update-app-property');
+
+        $commandTester = new CommandTester($command);
+        self::expectException(Exception::class);
+        self::expectExceptionMessage('Cannot read file "invalid-filename"');
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
+            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
+            'property' => 'longDescription',
+            'value' => 'invalid-filename',
+            '--is-file' => 1,
+        ]);
     }
 }
