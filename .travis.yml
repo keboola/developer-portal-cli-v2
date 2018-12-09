@@ -5,7 +5,7 @@ services:
 install:
 - docker-compose build
 script:
-- docker-compose run --rm tests-ci
+- docker-compose run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD -e KBC_DEVELOPERPORTAL_TEST_APP -e KBC_DEVELOPERPORTAL_TEST_VENDOR tests-ci
 after_success:
 - docker images
 after_error:
