@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Keboola\DeveloperPortal\Cli\Command\Test;
+namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
-use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
+use Keboola\DeveloperPortal\Cli\Command\GetRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use PHPUnit\Framework\TestCase;
 
-class GetLoginCommandTest extends TestCase
+class GetRepositoryTest extends TestCase
 {
     public function testExecute(): void
     {
         $application = new Application();
-        $application->add(new GetLoginCommand());
-        $command = $application->find('ecr:get-login');
+        $application->add(new GetRepository());
+        $command = $application->find('ecr:get-repository');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
@@ -23,6 +23,7 @@ class GetLoginCommandTest extends TestCase
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP')
         ));
         $this->assertEquals(0, $commandTester->getStatusCode());
-        $this->assertContains('docker login -u AWS -p', $commandTester->getDisplay());
+        $this->assertContains(getenv('KBC_DEVELOPERPORTAL_TEST_APP'), $commandTester->getDisplay());
+        $this->assertContains('ecr', $commandTester->getDisplay());
     }
 }

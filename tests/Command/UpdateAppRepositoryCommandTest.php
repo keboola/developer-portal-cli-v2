@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Keboola\DeveloperPortal\Cli\Command\Test;
+namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppRepositoryCommand;

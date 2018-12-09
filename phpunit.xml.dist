@@ -8,7 +8,6 @@
          processIsolation="false"
          stopOnFailure="true"
          stopOnError="true"
-         syntaxCheck="false"
          bootstrap="tests/bootstrap.php">
 
     <testsuite name="CLI Test Suite">

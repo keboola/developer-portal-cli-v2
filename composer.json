@@ -25,12 +25,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Keboola\\DeveloperPortal\\": "src/"
+            "Keboola\\DeveloperPortal\\Cli\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Keboola\\DeveloperPortal\\Tests\\": "tests/"
+            "Keboola\\DeveloperPortal\\Cli\\Tests\\": "tests/"
         }
     },
     "scripts": {
