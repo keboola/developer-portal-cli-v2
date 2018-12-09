@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keboola\DeveloperPortal\Cli\Command;
 
 use Keboola\DeveloperPortal\Cli\Command;
@@ -10,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateAppRepositoryCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('update-app-repository')
@@ -24,10 +26,10 @@ class UpdateAppRepositoryCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $repository = [
-            'tag' => $input->getArgument('tag')
+            'tag' => $input->getArgument('tag'),
         ];
         if ($input->getArgument('uri')) {
             $repository['uri'] = $input->getArgument('uri');

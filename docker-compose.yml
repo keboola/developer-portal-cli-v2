@@ -5,7 +5,6 @@ services:
     image: keboola/developer-portal-cli-v2
     volumes:
       - .:/code
-    working_dir: /code
     entrypoint: /code/bin/cli
     tty: true
     stdin_open: true
@@ -19,8 +18,7 @@ services:
     image: keboola/developer-portal-cli-v2
     volumes:
       - .:/code
-    working_dir: /code
-    entrypoint: /code/phpunit.sh
+    entrypoint: composer ci
     tty: true
     stdin_open: true
     environment:
@@ -33,7 +31,7 @@ services:
   tests-ci:
     build: .
     image: keboola/developer-portal-cli-v2
-    entrypoint: ./phpunit.sh
+    entrypoint: composer ci
     tty: true
     environment:
       - KBC_DEVELOPERPORTAL_USERNAME

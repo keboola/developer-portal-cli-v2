@@ -1,6 +1,8 @@
 <?php
 
-namespace Keboola\DeveloperPortal\Cli\Command\Test;
+declare(strict_types=1);
+
+namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppRepositoryCommand;
@@ -10,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class UpdateAppRepositoryCommandTest extends TestCase
 {
-    public function testExecute()
+    public function testExecute(): void
     {
         $application = new Application();
         $application->add(new UpdateAppRepositoryCommand());
@@ -21,13 +23,13 @@ class UpdateAppRepositoryCommandTest extends TestCase
         $randomTag = rand(0, 10) . "." . rand(0, 10) . "." . rand(0, 10);
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'tag' => $randomTag,
             '--configuration-format' => 'json',
-        ));
+        ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
         $this->assertContains('"configurationFormat": "json"', $commandTester->getDisplay());
     }
