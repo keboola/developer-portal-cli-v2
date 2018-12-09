@@ -36,7 +36,7 @@ class UpdateAppPropertyCommand extends Command
             }
             $value = $newValue;
         }
-        $name = $input->getArgument('property');
+        $name = (string)$input->getArgument('property');
         $params = [$name => $value];
 
         $output->writeln(sprintf(
