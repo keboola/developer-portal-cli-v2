@@ -1,8 +1,7 @@
 <?php
-/**
- * Author: ondra@keboola.com
- * Date: 21/04/2017
- */
+
+declare(strict_types=1);
+
 namespace Keboola\DeveloperPortal\Cli\Command\Test;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
@@ -12,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GetRepositoryTest extends TestCase
 {
-    public function testExecute()
+    public function testExecute(): void
     {
         $application = new Application();
         $application->add(new GetRepository());

@@ -1,8 +1,7 @@
 <?php
-/**
- * Author: ondrej.hlavacek@keboola.com
- * Date: 04/05/2017
- */
+
+declare(strict_types=1);
+
 namespace Keboola\DeveloperPortal\Cli\Command;
 
 use Keboola\DeveloperPortal\Cli\Command;
@@ -12,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetRepository extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ecr:get-repository')
@@ -22,7 +21,7 @@ class GetRepository extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $client = $this->login();
         $repository = $client->getAppRepository($input->getArgument('vendor'), $input->getArgument('app'));

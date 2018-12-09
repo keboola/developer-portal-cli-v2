@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keboola\DeveloperPortal\Cli\Command\Test;
 
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
@@ -10,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class UpdateAppRepositoryCommandTest extends TestCase
 {
-    public function testExecute()
+    public function testExecute(): void
     {
         $application = new Application();
         $application->add(new UpdateAppRepositoryCommand());

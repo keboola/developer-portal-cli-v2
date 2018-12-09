@@ -1,8 +1,6 @@
 <?php
-/**
- * Author: miro@keboola.com
- * Date: 21/04/2017
- */
+
+declare(strict_types=1);
 
 namespace Keboola\DeveloperPortal\Cli;
 
@@ -11,11 +9,7 @@ use Keboola\DeveloperPortal\Exception;
 
 class Command extends \Symfony\Component\Console\Command\Command
 {
-    /**
-     * @return Client
-     * @throws Exception
-     */
-    protected function login()
+    protected function login(): Client
     {
         $username = getenv('KBC_DEVELOPERPORTAL_USERNAME');
         if (!$username) {
