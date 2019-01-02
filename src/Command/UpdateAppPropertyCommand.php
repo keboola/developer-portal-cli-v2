@@ -20,21 +20,34 @@ class UpdateAppPropertyCommand extends Command
             ->addArgument('vendor', InputArgument::REQUIRED, 'Vendor ID')
             ->addArgument('app', InputArgument::REQUIRED, 'App ID')
             ->addArgument('property', InputArgument::REQUIRED, 'Name of the property to update')
-            ->addArgument('value', InputArgument::REQUIRED, 'Value of the property to update')
-            ->addOption('is-file', null, InputOption::VALUE_REQUIRED, 'Read value from file')
+            ->addOption('value', null, InputOption::VALUE_REQUIRED, 'Value of the property')
+            ->addOption(
+                'value-from-file',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Value of the property will be set to the contents of the provided file'
+            )
             ->setDescription('Update arbitrary application property')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $value = $input->getArgument('value');
-        if ($input->getOption('is-file')) {
-            $newValue = @file_get_contents($value);
-            if ($newValue === false) {
-                throw new Exception(sprintf('Cannot read file "%s".', $value));
+        if ($input->getOption('value') && $input->getOption('value-from-file')) {
+            throw new Exception('Use only one of --value or --value-from-file options.');
+        }
+        if (!$input->getOption('value') && !$input->getOption('value-from-file')) {
+            throw new Exception('Provide property value in either --value or --value-from-file option.');
+        }
+
+        if ($input->getOption('value-from-file')) {
+            $fileName = $input->getOption('value-from-file');
+            $value = @file_get_contents($fileName);
+            if ($value === false) {
+                throw new Exception(sprintf('Cannot read file "%s".', $fileName));
             }
-            $value = $newValue;
+        } else {
+            $value = $input->getOption('value');
         }
         $name = (string) $input->getArgument('property');
         $params = [$name => $value];

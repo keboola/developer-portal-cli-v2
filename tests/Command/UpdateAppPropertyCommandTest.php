@@ -27,7 +27,7 @@ class UpdateAppPropertyCommandTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'property' => 'shortDescription',
-            'value' => uniqid('random-description'),
+            '--value' => uniqid('random-description'),
         ]);
         self::assertEquals(0, $commandTester->getStatusCode());
         self::assertContains('"shortDescription": "random-description', $commandTester->getDisplay());
@@ -49,8 +49,7 @@ class UpdateAppPropertyCommandTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'property' => 'longDescription',
-            'value' => $fileName,
-            '--is-file' => 1,
+            '--value-from-file' => $fileName,
         ]);
         @unlink($fileName);
         self::assertEquals(0, $commandTester->getStatusCode());
@@ -73,8 +72,7 @@ class UpdateAppPropertyCommandTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'property' => 'longDescription',
-            'value' => 'invalid-filename',
-            '--is-file' => 1,
+            '--value-from-file' => 'invalid-filename',
         ]);
     }
 
@@ -94,7 +92,47 @@ class UpdateAppPropertyCommandTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'property' => 'requiredMemory',
-            'value' => 'someValue',
+            '--value' => 'someValue',
+        ]);
+    }
+
+    public function testExecuteWrongParamsTooMany(): void
+    {
+        $application = new Application();
+        $application->add(new UpdateAppPropertyCommand());
+        $application->add(new GetRepository());
+
+        $command = $application->find('update-app-property');
+
+        $commandTester = new CommandTester($command);
+        self::expectException(Exception::class);
+        self::expectExceptionMessage('Use only one of --value or --value-from-file options.');
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
+            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
+            'property' => 'longDescription',
+            '--value' => 'invalid-filename',
+            '--value-from-file' => 'invalid-filename',
+        ]);
+    }
+
+    public function testExecuteWrongParamsTooFew(): void
+    {
+        $application = new Application();
+        $application->add(new UpdateAppPropertyCommand());
+        $application->add(new GetRepository());
+
+        $command = $application->find('update-app-property');
+
+        $commandTester = new CommandTester($command);
+        self::expectException(Exception::class);
+        self::expectExceptionMessage('Provide property value in either --value or --value-from-file option.');
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
+            'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
+            'property' => 'longDescription',
         ]);
     }
 }
