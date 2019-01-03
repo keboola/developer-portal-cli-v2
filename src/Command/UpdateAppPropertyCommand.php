@@ -37,7 +37,7 @@ class UpdateAppPropertyCommand extends Command
             throw new Exception('Use only one of --value or --value-from-file options.');
         }
         if (!$input->getOption('value') && !$input->getOption('value-from-file')) {
-            throw new Exception('Provide property value in either --value or --value-from-file option.');
+            throw new Exception('Provide property value using either --value or --value-from-file option.');
         }
 
         if ($input->getOption('value-from-file')) {

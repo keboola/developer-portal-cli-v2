@@ -127,7 +127,7 @@ class UpdateAppPropertyCommandTest extends TestCase
 
         $commandTester = new CommandTester($command);
         self::expectException(Exception::class);
-        self::expectExceptionMessage('Provide property value in either --value or --value-from-file option.');
+        self::expectExceptionMessage('Provide property value using either --value or --value-from-file option.');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),

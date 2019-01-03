@@ -28,16 +28,16 @@ $ echo $REPOSITORY
 ```
 
 To update application properties, use the `update-app-property` command. Properties are updated one at a time. Property value 
-can be passed directly or read from file. To read property from file, pass `--is-file=1`.
+can be passed directly or read from file. To read property from file, use the `--value-from-file` option.
  
 ```
-$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application shortDescription "My description"
+$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application shortDescription --value="My description"
 Updating application keboola / keboola.my-application:
 {
     "shortDescription": "My description"
 }
 
-$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application longDescription README.md --is-file=1
+$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application longDescription --value-from-file=README.md
 {
     "longDescription": "...."
 }
