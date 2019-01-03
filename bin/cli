@@ -1,12 +1,9 @@
 #!/usr/bin/env php
 <?php
-/**
- * Author: ondra@keboola.com
- * Date: 21/04/2017
- */
 
 use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
+use Keboola\DeveloperPortal\Cli\Command\UpdateAppPropertyCommand;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppRepositoryCommand;
 use Symfony\Component\Console\Application;
 
@@ -26,6 +23,7 @@ $application = new Application();
 $application->addCommands([
     new GetLoginCommand(),
     new GetRepository(),
-    new UpdateAppRepositoryCommand()
+    new UpdateAppRepositoryCommand(),
+    new UpdateAppPropertyCommand()
 ]);
 $application->run();
