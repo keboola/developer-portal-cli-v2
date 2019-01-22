@@ -22,34 +22,77 @@ class UpdateAppPropertyCommand extends Command
             ->addArgument('property', InputArgument::REQUIRED, 'Name of the property to update')
             ->addOption('value', null, InputOption::VALUE_REQUIRED, 'Value of the property')
             ->addOption(
+                'json-value',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Value of the property will be set to the JSON object parsed from the provided string'
+            )
+            ->addOption(
                 'value-from-file',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Value of the property will be set to the contents of the provided file'
             )
+            ->addOption(
+                'json-value-from-file',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Value of the property will be set to the JSON object parsed from the contents of the provided file'
+            )
             ->setDescription('Update arbitrary application property')
         ;
     }
 
+    private function validateOptions(InputInterface $input)
+    {
+        $allOptions = ['value', 'json-value', 'value-from-file', 'json-value-from-file'];
+        $usedOptions = [];
+        foreach ($allOptions as $optionName) {
+            if ($input->getOption($optionName)) {
+                $usedOptions[] = $optionName;
+            }
+        }
+        if (count($usedOptions) > 1) {
+            throw new Exception(sprintf('Use only one of "%s" options.', implode(', ', $allOptions)));
+        }
+        if (count($usedOptions) < 1) {
+            throw new Exception(
+                sprintf('Provide the property value using one of the "%s" options.', implode(', ', $allOptions))
+            );
+        }
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        if ($input->getOption('value') && $input->getOption('value-from-file')) {
-            throw new Exception('Use only one of --value or --value-from-file options.');
-        }
-        if (!$input->getOption('value') && !$input->getOption('value-from-file')) {
-            throw new Exception('Provide property value using either --value or --value-from-file option.');
-        }
+        $this->validateOptions($input);
+        $json = false;
 
-        if ($input->getOption('value-from-file')) {
-            $fileName = $input->getOption('value-from-file');
+        if ($input->getOption('value-from-file') || $input->getOption('json-value-from-file')) {
+            if ($input->getOption('value-from-file')) {
+                $fileName = $input->getOption('value-from-file');
+            } else {
+                $fileName = $input->getOption('json-value-from-file');
+                $json = true;
+            }
             $value = @file_get_contents($fileName);
             if ($value === false) {
                 throw new Exception(sprintf('Cannot read file "%s".', $fileName));
             }
         } else {
-            $value = $input->getOption('value');
+            if ($input->getOption('value')) {
+                $value = $input->getOption('value');
+            } else {
+                $value = $input->getOption('json-value');
+                $json = true;
+            }
         }
         $name = (string) $input->getArgument('property');
+        if ($json) {
+            $value = json_decode($value, false);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("The value is not a valid JSON: " . json_last_error_msg());
+            }
+        }
         $params = [$name => $value];
 
         $output->writeln(sprintf(
