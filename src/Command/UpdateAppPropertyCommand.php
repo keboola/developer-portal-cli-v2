@@ -43,7 +43,7 @@ class UpdateAppPropertyCommand extends Command
         ;
     }
 
-    private function validateOptions(InputInterface $input)
+    private function validateOptions(InputInterface $input): void
     {
         $allOptions = ['value', 'json-value', 'value-from-file', 'json-value-from-file'];
         $usedOptions = [];

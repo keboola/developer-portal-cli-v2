@@ -191,7 +191,9 @@ class UpdateAppPropertyCommandTest extends TestCase
 
         $commandTester = new CommandTester($command);
         self::expectException(Exception::class);
-        self::expectExceptionMessage('Use only one of "value, json-value, value-from-file, json-value-from-file" options.');
+        self::expectExceptionMessage(
+            'Use only one of "value, json-value, value-from-file, json-value-from-file" options.'
+        );
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
@@ -213,7 +215,8 @@ class UpdateAppPropertyCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         self::expectException(Exception::class);
         self::expectExceptionMessage(
-            'Provide the property value using one of the "value, json-value, value-from-file, json-value-from-file" options.'
+            'Provide the property value using one of the "value, json-value, ' .
+            'value-from-file, json-value-from-file" options.'
         );
         $commandTester->execute([
             'command'  => $command->getName(),
