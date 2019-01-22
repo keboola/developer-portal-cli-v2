@@ -27,8 +27,7 @@ $ echo $REPOSITORY
 123456.dkr.ecr.us-east-1.amazonaws.com/developer-portal-v2/keboola.my-application
 ```
 
-To update application properties, use the `update-app-property` command. Properties are updated one at a time. Property value 
-can be passed directly or read from file. To read property from file, use the `--value-from-file` option.
+To update application properties, use the `update-app-property` command. Properties are updated one at a time. 
  
 ```
 $ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application shortDescription --value="My description"
@@ -36,13 +35,52 @@ Updating application keboola / keboola.my-application:
 {
     "shortDescription": "My description"
 }
+```
 
-$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application longDescription --value-from-file=README.md
+Property value can be passed directly or read from file. To read property rom file, use the `--value-from-file` option. 
+In that case, you also have to map the file with the Docker `--volume` option.
+
+```
+$ docker run --rm --volume=localPath\localFile:/tmp/localFile -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola-test keboola keboola.my-application longDescription --value-from-file=/tmp/localFile
 {
     "longDescription": "...."
 }
+```
+
+You can also map the entire directory with the Docker `--volume` option.
 
 ```
+$ docker run --rm --volume=localPath:/data/ -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola-test keboola keboola.my-application longDescription --value-from-file=/data/localFile
+{
+    "longDescription": "...."
+}
+```
+
+Some properties (e.g. `configurationSchema`) require that an object is passed as a value. This can be done using the
+`--json-value` and `--json-value-from-file` options. The `--json-value-from-file` behaves like the `-value-from-file` 
+option described above.
+
+```
+$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application configurationSchema --json-value="{\"a\":\"b\"}"
+Updating application keboola / keboola.my-application:
+{
+    "configurationSchema": {
+        "a": "b"
+    }
+}
+```
+
+Notice that the string `{\"a\":\"b\"}` was parsed into a Javascript object. If you *incorrectly* use `--value` option
+with `configurationSchema`, you'll see the following output. That means the value was not stored as an object, but 
+simply as literal string.
+
+```
+Updating application keboola / keboola.my-application:
+{
+    "configurationSchema": "{\"a\":\"b\"}"
+}
+```
+
 
 You can also pass
 ```
