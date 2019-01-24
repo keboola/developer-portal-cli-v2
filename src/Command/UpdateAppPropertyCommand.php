@@ -13,7 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateAppPropertyCommand extends Command
 {
-    private const OBJECT_PROPERTIES = ['configurationSchema', 'stackParameters', 'imageParameters', 'uiOptions', 'testConfiguration', 'actions'];
+    private const OBJECT_PROPERTIES = [
+        'configurationSchema', 'stackParameters', 'imageParameters', 'uiOptions',
+        'testConfiguration', 'actions',
+    ];
 
     protected function configure(): void
     {
