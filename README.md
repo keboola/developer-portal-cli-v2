@@ -41,7 +41,7 @@ Property value can be passed directly or read from file. To read property rom fi
 In that case, you also have to map the file with the Docker `--volume` option.
 
 ```
-$ docker run --rm --volume=localPath\localFile:/tmp/localFile -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola-test keboola keboola.my-application longDescription --value-from-file=/tmp/localFile
+$ docker run --rm --volume=localPath/localFile:/tmp/localFile -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola-test keboola keboola.my-application longDescription --value-from-file=/tmp/localFile
 {
     "longDescription": "...."
 }
