@@ -13,6 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateAppPropertyCommand extends Command
 {
+    private const OBJECT_PROPERTIES = ['configurationSchema', 'stackParameters', 'imageParameters', 'uiOptions', 'testConfiguration', 'actions'];
+
     protected function configure(): void
     {
         $this
@@ -22,22 +24,10 @@ class UpdateAppPropertyCommand extends Command
             ->addArgument('property', InputArgument::REQUIRED, 'Name of the property to update')
             ->addOption('value', null, InputOption::VALUE_REQUIRED, 'Value of the property')
             ->addOption(
-                'json-value',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Value of the property will be set to the JSON object parsed from the provided string'
-            )
-            ->addOption(
                 'value-from-file',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Value of the property will be set to the contents of the provided file'
-            )
-            ->addOption(
-                'json-value-from-file',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Value of the property will be set to the JSON object parsed from the contents of the provided file'
             )
             ->setDescription('Update arbitrary application property')
         ;
@@ -45,49 +35,29 @@ class UpdateAppPropertyCommand extends Command
 
     private function validateOptions(InputInterface $input): void
     {
-        $allOptions = ['value', 'json-value', 'value-from-file', 'json-value-from-file'];
-        $usedOptions = [];
-        foreach ($allOptions as $optionName) {
-            if ($input->getOption($optionName)) {
-                $usedOptions[] = $optionName;
-            }
+        if ($input->getOption('value') && $input->getOption('value-from-file')) {
+            throw new Exception('Use only one of --value or --value-from-file options.');
         }
-        if (count($usedOptions) > 1) {
-            throw new Exception(sprintf('Use only one of "%s" options.', implode(', ', $allOptions)));
-        }
-        if (count($usedOptions) < 1) {
-            throw new Exception(
-                sprintf('Provide the property value using one of the "%s" options.', implode(', ', $allOptions))
-            );
+        if (!$input->getOption('value') && !$input->getOption('value-from-file')) {
+            throw new Exception('Provide property value using either --value or --value-from-file option.');
         }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->validateOptions($input);
-        $json = false;
 
-        if ($input->getOption('value-from-file') || $input->getOption('json-value-from-file')) {
-            if ($input->getOption('value-from-file')) {
-                $fileName = $input->getOption('value-from-file');
-            } else {
-                $fileName = $input->getOption('json-value-from-file');
-                $json = true;
-            }
+        if ($input->getOption('value-from-file')) {
+            $fileName = $input->getOption('value-from-file');
             $value = @file_get_contents($fileName);
             if ($value === false) {
                 throw new Exception(sprintf('Cannot read file "%s".', $fileName));
             }
         } else {
-            if ($input->getOption('value')) {
-                $value = $input->getOption('value');
-            } else {
-                $value = $input->getOption('json-value');
-                $json = true;
-            }
+            $value = $input->getOption('value');
         }
         $name = (string) $input->getArgument('property');
-        if ($json) {
+        if (in_array($name, self::OBJECT_PROPERTIES)) {
             $value = json_decode($value, false);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception("The value is not a valid JSON: " . json_last_error_msg());

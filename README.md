@@ -56,12 +56,11 @@ $ docker run --rm --volume=localPath:/data/ -e KBC_DEVELOPERPORTAL_USERNAME -e K
 }
 ```
 
-Some properties (e.g. `configurationSchema`) require that an object is passed as a value. This can be done using the
-`--json-value` and `--json-value-from-file` options. The `--json-value-from-file` behaves like the `-value-from-file` 
-option described above.
+Some properties (e.g. `configurationSchema`) require that an object is passed as a value. In that case, you
+have to provide a valid JSON string in either the `--value` or `--value-from-file` options.
 
 ```
-$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application configurationSchema --json-value="{\"a\":\"b\"}"
+$ docker run --rm -e KBC_DEVELOPERPORTAL_USERNAME -e KBC_DEVELOPERPORTAL_PASSWORD quay.io/keboola/developer-portal-cli-v2:latest update-app-property keboola keboola.my-application configurationSchema --value="{\"a\":\"b\"}"
 Updating application keboola / keboola.my-application:
 {
     "configurationSchema": {
@@ -70,25 +69,14 @@ Updating application keboola / keboola.my-application:
 }
 ```
 
-Notice that the string `{\"a\":\"b\"}` was parsed into a Javascript object. If you *incorrectly* use `--value` option
-with `configurationSchema`, you'll see the following output. That means the value was not stored as an object, but 
-simply as literal string.
-
-```
-Updating application keboola / keboola.my-application:
-{
-    "configurationSchema": "{\"a\":\"b\"}"
-}
-```
-
+Notice that the string `{\"a\":\"b\"}` was parsed into a Javascript object. 
 
 You can also pass
 ```
 -e KBC_DEVELOPERPORTAL_URL
 ```
 
-to `docker run`
-commands above if you wan to use custom API URL. 
+to the `docker run` commands above if you wan to use custom API URL. 
 
 Repository is also mirrored to dockerhub:
 
