@@ -61,9 +61,10 @@ class UpdateAppPropertyCommand extends Command
         }
         $name = (string) $input->getArgument('property');
         if (in_array($name, self::OBJECT_PROPERTIES)) {
-            $value = json_decode($value, false);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception("The value is not a valid JSON: " . json_last_error_msg());
+            try {
+                $value = json_decode($value, false, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                throw new Exception("The value is not a valid JSON: " . $e->getMessage(), 0, $e);
             }
         }
         $params = [$name => $value];
