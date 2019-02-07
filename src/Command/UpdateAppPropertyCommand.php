@@ -13,6 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateAppPropertyCommand extends Command
 {
+    private const OBJECT_PROPERTIES = [
+        'configurationSchema', 'stackParameters', 'imageParameters', 'uiOptions',
+        'testConfiguration', 'actions',
+    ];
+
     protected function configure(): void
     {
         $this
@@ -31,7 +36,7 @@ class UpdateAppPropertyCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    private function validateOptions(InputInterface $input): void
     {
         if ($input->getOption('value') && $input->getOption('value-from-file')) {
             throw new Exception('Use only one of --value or --value-from-file options.');
@@ -39,6 +44,11 @@ class UpdateAppPropertyCommand extends Command
         if (!$input->getOption('value') && !$input->getOption('value-from-file')) {
             throw new Exception('Provide property value using either --value or --value-from-file option.');
         }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): void
+    {
+        $this->validateOptions($input);
 
         if ($input->getOption('value-from-file')) {
             $fileName = $input->getOption('value-from-file');
@@ -50,6 +60,13 @@ class UpdateAppPropertyCommand extends Command
             $value = $input->getOption('value');
         }
         $name = (string) $input->getArgument('property');
+        if (in_array($name, self::OBJECT_PROPERTIES)) {
+            try {
+                $value = json_decode($value, false, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                throw new Exception("The value is not a valid JSON: " . $e->getMessage(), 0, $e);
+            }
+        }
         $params = [$name => $value];
 
         $output->writeln(sprintf(
