@@ -1,7 +1,7 @@
 # developer-portal-php-client-v2
 PHP Client for Keboola Developer Portal
 
-[![Build Status](https://travis-ci.org/keboola/developer-portal-cli-v2.svg?branch=master)](https://travis-ci.org/keboola/developer-portal-cli-v2)
+[![Build Status](https://travis-ci.com/keboola/developer-portal-cli-v2.svg?branch=master)](https://travis-ci.com/keboola/developer-portal-cli-v2)
 [![Docker Repository on Quay](https://quay.io/repository/keboola/developer-portal-cli-v2/status "Docker Repository on Quay")](https://quay.io/repository/keboola/developer-portal-cli-v2)
 
 ## Usage
