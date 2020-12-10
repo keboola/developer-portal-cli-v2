@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateAppPropertyCommand extends Command
 {
     private const OBJECT_PROPERTIES = [
-        'configurationSchema', 'stackParameters', 'imageParameters', 'uiOptions',
+        'configurationSchema', 'configurationRowSchema', 'stackParameters', 'imageParameters', 'uiOptions',
         'testConfiguration', 'actions',
     ];
 
