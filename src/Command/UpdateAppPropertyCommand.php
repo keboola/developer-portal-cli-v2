@@ -15,7 +15,7 @@ class UpdateAppPropertyCommand extends Command
 {
     private const OBJECT_PROPERTIES = [
         'configurationSchema', 'configurationRowSchema', 'stackParameters', 'imageParameters', 'uiOptions',
-        'testConfiguration', 'actions',
+        'testConfiguration', 'actions', 'loggerConfiguration'
     ];
 
     protected function configure(): void
