@@ -115,3 +115,7 @@ KBC_DEVELOPERPORTAL_TEST_APP=
 ```
 docker-compose run --rm tests
 ```
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
