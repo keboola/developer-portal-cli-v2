@@ -27,3 +27,23 @@ jobs:
           -e KBC_DEVELOPERPORTAL_PASSWORD \
           -e KBC_DEVELOPERPORTAL_TEST_APP \
           -e KBC_DEVELOPERPORTAL_TEST_VENDOR tests-ci
+      - name: "Push images"
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          QUAY_USERNAME: 'keboola+developer_portal_cli_v2_push'
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+        run: |
+          docker login -u="$DOCKERHUB_USERNAME" -p="$DOCKERHUB_PASSWORD" https://index.docker.io/v1/
+          docker tag keboola/developer-portal-cli-v2 keboola/developer-portal-cli-v2:${{ github.ref_name }}
+          docker tag keboola/developer-portal-cli-v2 qkeboola/developer-portal-cli-v2:latest
+          docker push keboola/developer-portal-cli-v2:${{ github.ref_name }}
+          docker push keboola/developer-portal-cli-v2:latest
+          docker logout
+          docker login -u="$QUAY_USERNAME" -p="$QUAY_PASSWORD" quay.io
+          docker tag keboola/developer-portal-cli-v2 quay.io/keboola/developer-portal-cli-v2:${{ github.ref_name }}
+          docker tag keboola/developer-portal-cli-v2 quay.io/keboola/developer-portal-cli-v2:latest
+          docker push quay.io/keboola/developer-portal-cli-v2:${{ github.ref_name }}
+          docker push quay.io/keboola/developer-portal-cli-v2:latest
+          docker logout
