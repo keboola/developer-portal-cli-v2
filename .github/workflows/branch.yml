@@ -1,0 +1,29 @@
+name: Branch workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+env:
+  KBC_DEVELOPERPORTAL_USERNAME: 'keboola+github_actions_developer_portal_cli'
+  KBC_DEVELOPERPORTAL_PASSWORD: ${{ secrets.KBC_DEVELOPERPORTAL_PASSWORD }}
+  KBC_DEVELOPERPORTAL_TEST_APP: 'keboola.developer-portal-cli-v2-tests'
+  KBC_DEVELOPERPORTAL_TEST_VENDOR: 'keboola'
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      - name: "Build images"
+        run: docker-compose build
+      - name: "Run tests"
+        run: |
+          docker-compose run --rm \
+          -e KBC_DEVELOPERPORTAL_USERNAME \
+          -e KBC_DEVELOPERPORTAL_PASSWORD \
+          -e KBC_DEVELOPERPORTAL_TEST_APP \
+          -e KBC_DEVELOPERPORTAL_TEST_VENDOR tests-ci
