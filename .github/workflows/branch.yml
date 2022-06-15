@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - master
+  push:
+    tags:
+      - '*'
 
 env:
   KBC_DEVELOPERPORTAL_USERNAME: 'keboola+github_actions_developer_portal_cli'
