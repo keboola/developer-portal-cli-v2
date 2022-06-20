@@ -5,6 +5,7 @@ use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
 use Keboola\DeveloperPortal\Cli\Command\GetRepository;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppPropertyCommand;
 use Keboola\DeveloperPortal\Cli\Command\UpdateAppRepositoryCommand;
+use Keboola\DeveloperPortal\Cli\Command\GetAppRepositoryTag;
 use Symfony\Component\Console\Application;
 
 define('ROOT_PATH', __DIR__ . '/../');
@@ -24,6 +25,7 @@ $application->addCommands([
     new GetLoginCommand(),
     new GetRepository(),
     new UpdateAppRepositoryCommand(),
-    new UpdateAppPropertyCommand()
+    new UpdateAppPropertyCommand(),
+    new GetAppRepositoryTag(),
 ]);
 $application->run();
