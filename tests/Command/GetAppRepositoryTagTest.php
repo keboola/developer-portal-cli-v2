@@ -28,8 +28,8 @@ class GetAppRepositoryTagTest extends TestCase
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
             'tag' => $randomTag,
         ]);
-        $this->assertEquals(0, $updateAppRepositoryCmdTester->getStatusCode());
-        $this->assertStringContainsString(
+        self::assertEquals(0, $updateAppRepositoryCmdTester->getStatusCode());
+        self::assertStringContainsString(
             sprintf('"tag": "%s"', $randomTag),
             $updateAppRepositoryCmdTester->getDisplay()
         );
@@ -42,7 +42,7 @@ class GetAppRepositoryTagTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
         ]);
-        $this->assertEquals(0, $commandTester->getStatusCode());
-        $this->assertEquals($randomTag, trim($commandTester->getDisplay()));
+        self::assertEquals(0, $commandTester->getStatusCode());
+        self::assertEquals($randomTag, trim($commandTester->getDisplay()));
     }
 }

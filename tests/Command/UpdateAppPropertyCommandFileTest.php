@@ -33,7 +33,7 @@ class UpdateAppPropertyCommandFileTest extends TestCase
         ]);
         @unlink($fileName);
         self::assertEquals(0, $commandTester->getStatusCode());
-        self::assertContains('"longDescription": "Long description', $commandTester->getDisplay());
+        self::assertStringContainsString('"longDescription": "Long description', $commandTester->getDisplay());
     }
 
     public function testExecuteJson(): void
@@ -56,7 +56,7 @@ class UpdateAppPropertyCommandFileTest extends TestCase
         ]);
         @unlink($fileName);
         self::assertEquals(0, $commandTester->getStatusCode());
-        self::assertContains('"longDescription": "Long description', $commandTester->getDisplay());
+        self::assertStringContainsString('"longDescription": "Long description', $commandTester->getDisplay());
     }
 
     public function testExecuteInvalidJson(): void
@@ -70,8 +70,8 @@ class UpdateAppPropertyCommandFileTest extends TestCase
         $fileName = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('dev-portal-test');
         file_put_contents($fileName, uniqid('Long description') . "\n\n with newlines");
         $commandTester = new CommandTester($command);
-        self::expectException(Exception::class);
-        self::expectExceptionMessage('The value is not a valid JSON: Syntax error');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The value is not a valid JSON: Syntax error');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
@@ -90,8 +90,8 @@ class UpdateAppPropertyCommandFileTest extends TestCase
         $command = $application->find('update-app-property');
 
         $commandTester = new CommandTester($command);
-        self::expectException(Exception::class);
-        self::expectExceptionMessage('Cannot read file "invalid-filename"');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot read file "invalid-filename"');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),

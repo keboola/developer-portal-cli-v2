@@ -31,6 +31,6 @@ class UpdateAppRepositoryCommandTest extends TestCase
             '--configuration-format' => 'json',
         ]);
         $this->assertEquals(0, $commandTester->getStatusCode());
-        $this->assertContains('"configurationFormat": "json"', $commandTester->getDisplay());
+        $this->assertStringContainsString('"configurationFormat": "json"', $commandTester->getDisplay());
     }
 }

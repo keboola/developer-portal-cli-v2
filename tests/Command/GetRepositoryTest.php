@@ -22,8 +22,8 @@ class GetRepositoryTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
         ]);
-        $this->assertEquals(0, $commandTester->getStatusCode());
-        $this->assertContains(getenv('KBC_DEVELOPERPORTAL_TEST_APP'), $commandTester->getDisplay());
-        $this->assertContains('ecr', $commandTester->getDisplay());
+        self::assertEquals(0, $commandTester->getStatusCode());
+        self::assertStringContainsString(getenv('KBC_DEVELOPERPORTAL_TEST_APP'), $commandTester->getDisplay());
+        self::assertStringContainsString('ecr', $commandTester->getDisplay());
     }
 }
