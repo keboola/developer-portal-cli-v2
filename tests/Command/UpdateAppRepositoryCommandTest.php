@@ -20,7 +20,7 @@ class UpdateAppRepositoryCommandTest extends TestCase
 
         $command = $application->find('update-app-repository');
 
-        $randomTag = rand(0, 10) . "." . rand(0, 10) . "." . rand(0, 10);
+        $randomTag = rand(0, 10) . '.' . rand(0, 10) . '.' . rand(0, 10);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute([

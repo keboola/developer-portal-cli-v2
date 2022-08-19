@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Keboola\DeveloperPortal\Cli\Command;
 
+use JsonException;
 use Keboola\DeveloperPortal\Cli\Command;
 use Keboola\DeveloperPortal\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function json_encode;
 
 class UpdateAppPropertyCommand extends Command
 {
@@ -46,37 +48,42 @@ class UpdateAppPropertyCommand extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->validateOptions($input);
 
         if ($input->getOption('value-from-file')) {
-            $fileName = $input->getOption('value-from-file');
+            $fileName = self::getOption($input, 'value-from-file');
             $value = @file_get_contents($fileName);
             if ($value === false) {
                 throw new Exception(sprintf('Cannot read file "%s".', $fileName));
             }
         } else {
-            $value = $input->getOption('value');
+            $value = self::getOption($input, 'value');
         }
-        $name = (string) $input->getArgument('property');
+        $name = self::getArgument($input, 'property');
         if (in_array($name, self::OBJECT_PROPERTIES)) {
             try {
-                $value = json_decode($value, false, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
-                throw new Exception("The value is not a valid JSON: " . $e->getMessage(), 0, $e);
+                $value = json_decode(json: $value, associative: false, flags:  JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                throw new Exception('The value is not a valid JSON: ' . $e->getMessage(), 0, $e);
             }
         }
         $params = [$name => $value];
 
         $output->writeln(sprintf(
             'Updating application %s / %s:',
-            $input->getArgument('vendor'),
-            $input->getArgument('app')
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app')
         ));
-        $output->writeln(\json_encode($params, JSON_PRETTY_PRINT));
+        $output->writeln((string) json_encode($params, JSON_PRETTY_PRINT));
 
         $client = $this->login();
-        $client->updateApp($input->getArgument('vendor'), $input->getArgument('app'), $params);
+        $client->updateApp(
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app'),
+            $params
+        );
+        return 0;
     }
 }

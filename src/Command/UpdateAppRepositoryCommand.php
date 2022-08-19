@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function json_encode;
 
 class UpdateAppRepositoryCommand extends Command
 {
@@ -26,7 +27,7 @@ class UpdateAppRepositoryCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $repository = [
             'tag' => $input->getArgument('tag'),
@@ -48,12 +49,17 @@ class UpdateAppRepositoryCommand extends Command
 
         $output->writeln(sprintf(
             'Updating application %s / %s:',
-            $input->getArgument('vendor'),
-            $input->getArgument('app')
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app')
         ));
-        $output->writeln(\json_encode($params, JSON_PRETTY_PRINT));
+        $output->writeln((string) json_encode($params, JSON_PRETTY_PRINT));
 
         $client = $this->login();
-        $client->updateApp($input->getArgument('vendor'), $input->getArgument('app'), $params);
+        $client->updateApp(
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app'),
+            $params
+        );
+        return 0;
     }
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
 use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use PHPUnit\Framework\TestCase;
 
 class GetLoginCommandTest extends TestCase
 {

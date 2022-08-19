@@ -23,10 +23,14 @@ class GetAppRepositoryTag extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $client = $this->login();
-        $component = $client->getAppDetail($input->getArgument('vendor'), $input->getArgument('app'));
+        $component = $client->getAppDetail(
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app')
+        );
         $output->writeln($component['repository']['tag'] ?? '');
+        return 0;
     }
 }

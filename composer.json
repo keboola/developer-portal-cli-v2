@@ -21,7 +21,8 @@
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-phpunit": "^1.1",
         "phpunit/phpunit": "^9.5.2",
-        "sempro/phpunit-pretty-print": "^1.4"
+        "sempro/phpunit-pretty-print": "^1.4",
+        "symfony/dotenv": "^6.1"
     },
     "minimum-stability": "stable",
     "autoload": {
@@ -38,6 +39,7 @@
         "tests": "phpunit",
         "phpstan": "phpstan analyse --no-progress -c phpstan.neon",
         "phpcs": "phpcs --extensions=php src tests",
+        "phpcbf": "phpcbf --extensions=php src tests",
         "phplint": "parallel-lint -j 10 --exclude vendor .",
         "build": [
             "@phpcs",

@@ -56,6 +56,7 @@ class UpdateAppPropertyCommandTest extends TestCase
     public function testExecuteForbiddenProp(): void
     {
         self::markTestSkipped('Disabled until https://keboola.atlassian.net/browse/PS-1942 is fixed.');
+        // @phpstan-ignore-next-line
         $application = new Application();
         $application->add(new UpdateAppPropertyCommand());
         $application->add(new GetRepository());

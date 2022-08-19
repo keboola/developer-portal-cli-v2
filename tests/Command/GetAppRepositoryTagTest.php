@@ -20,7 +20,7 @@ class GetAppRepositoryTagTest extends TestCase
 
         // update app repository
         $updateAppRepositoryCmd = $application->find('update-app-repository');
-        $randomTag = rand(0, 10) . "." . rand(0, 10) . "." . rand(0, 10);
+        $randomTag = rand(0, 10) . '.' . rand(0, 10) . '.' . rand(0, 10);
         $updateAppRepositoryCmdTester = new CommandTester($updateAppRepositoryCmd);
         $updateAppRepositoryCmdTester->execute([
             'command'  => $updateAppRepositoryCmd->getName(),
