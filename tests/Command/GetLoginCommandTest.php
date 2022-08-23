@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Keboola\DeveloperPortal\Cli\Tests\Command;
 
 use Keboola\DeveloperPortal\Cli\Command\GetLoginCommand;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use PHPUnit\Framework\TestCase;
 
 class GetLoginCommandTest extends TestCase
 {
@@ -22,7 +22,7 @@ class GetLoginCommandTest extends TestCase
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
             'app' => getenv('KBC_DEVELOPERPORTAL_TEST_APP'),
         ]);
-        $this->assertEquals(0, $commandTester->getStatusCode());
-        $this->assertContains('docker login -u AWS -p', $commandTester->getDisplay());
+        self::assertEquals(0, $commandTester->getStatusCode());
+        self::assertStringContainsString('docker login -u AWS -p', $commandTester->getDisplay());
     }
 }

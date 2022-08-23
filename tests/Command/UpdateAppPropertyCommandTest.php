@@ -30,7 +30,7 @@ class UpdateAppPropertyCommandTest extends TestCase
             '--value' => uniqid('random-description'),
         ]);
         self::assertEquals(0, $commandTester->getStatusCode());
-        self::assertContains('"shortDescription": "random-description', $commandTester->getDisplay());
+        self::assertStringContainsString('"shortDescription": "random-description', $commandTester->getDisplay());
     }
 
     public function testExecuteJson(): void
@@ -50,12 +50,13 @@ class UpdateAppPropertyCommandTest extends TestCase
             '--value' => '{}',
         ]);
         self::assertEquals(0, $commandTester->getStatusCode());
-        self::assertContains('"configurationSchema": {}', $commandTester->getDisplay());
+        self::assertStringContainsString('"configurationSchema": {}', $commandTester->getDisplay());
     }
 
     public function testExecuteForbiddenProp(): void
     {
         self::markTestSkipped('Disabled until https://keboola.atlassian.net/browse/PS-1942 is fixed.');
+        // @phpstan-ignore-next-line
         $application = new Application();
         $application->add(new UpdateAppPropertyCommand());
         $application->add(new GetRepository());
@@ -63,8 +64,8 @@ class UpdateAppPropertyCommandTest extends TestCase
         $command = $application->find('update-app-property');
 
         $commandTester = new CommandTester($command);
-        self::expectException(Exception::class);
-        self::expectExceptionMessage('Setting of parameter requiredMemory is forbidden');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Setting of parameter requiredMemory is forbidden');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
@@ -83,8 +84,8 @@ class UpdateAppPropertyCommandTest extends TestCase
         $command = $application->find('update-app-property');
 
         $commandTester = new CommandTester($command);
-        self::expectException(Exception::class);
-        self::expectExceptionMessage('Use only one of --value or --value-from-file options.');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Use only one of --value or --value-from-file options.');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),
@@ -104,8 +105,8 @@ class UpdateAppPropertyCommandTest extends TestCase
         $command = $application->find('update-app-property');
 
         $commandTester = new CommandTester($command);
-        self::expectException(Exception::class);
-        self::expectExceptionMessage('Provide property value using either --value or --value-from-file option.');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Provide property value using either --value or --value-from-file option.');
         $commandTester->execute([
             'command'  => $command->getName(),
             'vendor' => getenv('KBC_DEVELOPERPORTAL_TEST_VENDOR'),

@@ -21,15 +21,19 @@ class GetLoginCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $client = $this->login();
-        $repository = $client->getAppRepository($input->getArgument('vendor'), $input->getArgument('app'));
+        $repository = $client->getAppRepository(
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app')
+        );
         $output->writeln(sprintf(
-            "docker login -u %s -p %s %s",
-            $repository["credentials"]["username"],
-            $repository["credentials"]["password"],
-            $repository["registry"]
+            'docker login -u %s -p %s %s',
+            $repository['credentials']['username'],
+            $repository['credentials']['password'],
+            $repository['registry']
         ));
+        return 0;
     }
 }

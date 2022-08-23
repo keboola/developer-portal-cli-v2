@@ -21,10 +21,14 @@ class GetRepository extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $client = $this->login();
-        $repository = $client->getAppRepository($input->getArgument('vendor'), $input->getArgument('app'));
+        $repository = $client->getAppRepository(
+            self::getArgument($input, 'vendor'),
+            self::getArgument($input, 'app')
+        );
         $output->writeln("{$repository["registry"]}/{$repository["repository"]}");
+        return 0;
     }
 }
